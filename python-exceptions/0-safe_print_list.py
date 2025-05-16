@@ -1,7 +1,11 @@
 #!/usr/bin/python3
-if __name__ == "__main__":
-    from add_0 import add
-
-    a = 1
-    b = 2
-    print("{} + {} = {}".format(a, b, add(a, b)))
+def safe_print_list(my_list=[], x=0):
+    count = 0
+    try:
+        for i in range(x):
+            print(my_list[i], end="")
+            count += 1
+    except IndexError:
+        pass
+    print()
+    return count
