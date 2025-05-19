@@ -1,0 +1,40 @@
+# 3-say_my_name.txt
+# Test cases for 3-say_my_name.py
+
+>>> say_my_name = __import__('3-say_my_name').say_my_name
+
+# Test with first and last name
+>>> say_my_name("John", "Smith")
+My name is John Smith
+
+# Test with different names
+>>> say_my_name("Walter", "White")
+My name is Walter White
+
+# Test with only first name
+>>> say_my_name("Bob")
+My name is Bob 
+
+# Test with first name as a number
+>>> say_my_name(12, "White")
+Traceback (most recent call last):
+    ...
+TypeError: first_name must be a string
+
+# Test with last name as a number
+>>> say_my_name("White", 12)
+Traceback (most recent call last):
+    ...
+TypeError: last_name must be a string
+
+# Test with None as first name
+>>> say_my_name(None)
+Traceback (most recent call last):
+    ...
+TypeError: first_name must be a string
+
+# Test missing both arguments
+>>> say_my_name()
+Traceback (most recent call last):
+    ...
+TypeError: say_my_name() missing 1 required positional argument: 'first_name'
