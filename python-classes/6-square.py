@@ -47,7 +47,7 @@ class Square:
             print()
             return
 
-        # Print vertical offset
+        # Print vertical offset (only if > 0)
         for _ in range(self.__position[1]):
             print()
 
