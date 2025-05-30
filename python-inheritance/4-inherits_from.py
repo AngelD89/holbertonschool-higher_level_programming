@@ -3,7 +3,7 @@
   
 
 def inherits_from(obj, a_class):
-    """Return True if obj is an instance of a subclass of a_class.
+    """Return True if obj is an instance of a subclass.
 
     Args:
         obj: The object to check.
