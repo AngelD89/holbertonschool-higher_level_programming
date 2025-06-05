@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Write a string to a text file (UTF8) and return the number of characters written.
+"""
+Write a string to a text file (UTF8) and return the number of characters written.
 """
 
 
