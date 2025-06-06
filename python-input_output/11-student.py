@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Defines a Student class with serialization and deserialization support.
+"""Defines a Student class for JSON serialization and deserialization.
 """
 
 
@@ -25,9 +25,6 @@ class Student:
     def reload_from_json(self, json):
         """
         Replace all attributes of the Student instance using the given dictionary.
-
-        Args:
-            json (dict): Dictionary of attribute names and their values.
         """
         for key, value in json.items():
             setattr(self, key, value)
