@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Module defines a Student class with attribute filtering.
+"""Module that defines a Student class with attribute filtering.
 """
 
 
