@@ -18,7 +18,7 @@ def main():
     a = int(a_str)
     b = int(b_str)
     result = ops[op](a, b)
-    print(f"{a} {op} {b} = {result}")
+    print("{} {} {} = {}".format(a, op, b, result))
 
 
 if __name__ == "__main__":
