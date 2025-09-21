@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""Defines a class Square with size, position, area, and print functionality."""
+"""Defines a class Square.
+
+This class supports size, position, area, and printing functionality.
+"""
 
 
 class Square:
@@ -40,7 +43,7 @@ class Square:
 
     def area(self):
         """Return the current square area."""
-        return self.__size ** 2
+        return self.__size**2
 
     def my_print(self):
         """Print the square using '#' and respecting the position."""
@@ -48,10 +51,10 @@ class Square:
             print()
             return
 
-        # Print vertical offset (position[1])
+        #  Print vertical offset (position[1])
         for _ in range(self.__position[1]):
             print()
 
-        # Print the square with horizontal offset (position[0])
+        #  Print the square with horizontal offset (position[0])
         for _ in range(self.__size):
             print(" " * self.__position[0] + "#" * self.__size)
