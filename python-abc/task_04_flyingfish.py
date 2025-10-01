@@ -1,57 +1,35 @@
 #!/usr/bin/env python3
-from abc import ABC, abstractmethod
-import math
+"""Module demonstrating multiple inheritance with a FlyingFish class."""
 
 
-class Shape(ABC):
-    """Abstract base class for all shapes."""
+class Fish:
+    """Represents a Fish."""
 
-    @abstractmethod
-    def area(self):
-        """Return the area of the shape."""
-        pass
+    def swim(self):
+        print("The fish is swimming")
 
-    @abstractmethod
-    def perimeter(self):
-        """Return the perimeter of the shape."""
-        pass
+    def habitat(self):
+        print("The fish lives in water")
 
 
-class Circle(Shape):
-    """Circle shape, defined by its radius."""
+class Bird:
+    """Represents a Bird."""
 
-    def __init__(self, radius):
-        self.radius = radius
+    def fly(self):
+        print("The bird is flying")
 
-    def area(self):
-        """Calculate the area of the circle."""
-        return math.pi * (self.radius ** 2)
-
-    def perimeter(self):
-        """Calculate the perimeter (circumference) of the circle."""
-        return 2 * math.pi * self.radius
+    def habitat(self):
+        print("The bird lives in the sky")
 
 
-class Rectangle(Shape):
-    """Rectangle shape, defined by width and height."""
+class FlyingFish(Fish, Bird):
+    """Represents a Flying Fish, inheriting from Fish and Bird."""
 
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
+    def swim(self):
+        print("The flying fish is swimming!")
 
-    def area(self):
-        """Calculate the area of the rectangle."""
-        return self.width * self.height
+    def fly(self):
+        print("The flying fish is soaring!")
 
-    def perimeter(self):
-        """Calculate the perimeter of the rectangle."""
-        return 2 * (self.width + self.height)
-
-
-def shape_info(shape):
-    """
-    Print the area and perimeter of a given shape.
-    Uses duck typing: assumes the object has area() and perimeter() methods.
-    """
-    print(f"Area: {shape.area()}")
-    print(f"Perimeter: {shape.perimeter()}")
+    def habitat(self):
+        print("The flying fish lives both in water and the sky!")
