@@ -1,83 +1,110 @@
 #!/usr/bin/env python3
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import urlparse
-import json
+"""
+Simple API server using python's http.server module
+Shows Basic HTTP request handling and JSON responses
+"""
 
-HOST = "127.0.0.1"
-PORT = 8000
+import json
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
 
 class SimpleAPIHandler(BaseHTTPRequestHandler):
-    # --- helpers -------------------------------------------------------------
-    def write_text(self, status: int, text: str):
-        data = text.encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "text/plain; charset=utf-8")
-        self.send_header("Content-Length", str(len(data)))
-        self.end_headers()
-        self.wfile.write(data)
+    """
+    Since we are inheriting fron BaseHTTPRequestHandler -
+    Class will handle different simple API endpoints
+    """
 
-    def write_json(self, status: int, obj: dict):
-        data = json.dumps(obj).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(data)))
-        self.end_headers()
-        self.wfile.write(data)
-
-    # --- routing -------------------------------------------------------------
     def do_GET(self):
-        path = urlparse(self.path).path
+        """
+        Method will be called whenever we GET a request to our server
+        """
 
-        if path == "/":  # root
-            return self.write_text(200, "Hello, this is a simple API!")
+        if self.path == '/':
+            self._handle_root()
+        elif self.path == '/data':
+            self._handle_data()
+        elif self.path == '/status':
+            self._handle_status()
+        else:
+            self._handle_not_found()
 
-        elif path == "/status":
-            # spec says this should return "OK"
-            return self.write_text(200, "OK")
+    def _handle_root(self):
+        """
+        Handles requests to the root endpoint '/'
+        Welcome users to the API.
+        """
 
-        elif path == "/data":
-            payload = {"name": "John", "age": 30, "city": "New York"}
-            return self.write_json(200, payload)
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
 
-        elif path == "/info":
-            payload = {
-                "version": "1.0",
-                "description": "A simple API built with http.server",
-            }
-            return self.write_json(200, payload)
+        self.wfile.write(b"Hello, this is a simple API!")
 
-        # anything else -> 404 JSON error
-        return self.write_json(404, {"error": "Endpoint not found"})
+    def _handle_data(self):
+        """
+        Handles request to /data endpoint
+        Returns JSON data about a person
+        """
 
-    # Optional: small POST example (handy for testing with curl)
-    def do_POST(self):
-        path = urlparse(self.path).path
-        content_length = int(self.headers.get("Content-Length", "0") or 0)
-        body = self.rfile.read(content_length) if content_length > 0 else b""
+        data = {
+            "name": "John",
+            "age": 30,
+            "city": "New York"
+        }
 
-        if path == "/echo":
-            try:
-                parsed = json.loads(body.decode("utf-8") or "{}")
-            except json.JSONDecodeError:
-                return self.write_json(400, {"error": "Invalid JSON"})
-            return self.write_json(201, {"received": parsed})
+        json_data = json.dumps(data)
 
-        return self.write_json(404, {"error": "Endpoint not found"})
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        self.wfile.write(json_data.encode())
 
-    # make server logs a little cleaner (optional)
-    def log_message(self, fmt, *args):
-        return  # comment this out if you want default request logs
+    def _handle_status(self):
+        """
+        Handles requests to /status endpoint
+        Returns simple status information
+        """
 
-def run():
-    server = ThreadingHTTPServer((HOST, PORT), SimpleAPIHandler)
-    print(f"Serving on http://{HOST}:{PORT}")
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        server.server_close()
-        print("\nServer stopped.")
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
 
-if __name__ == "__main__":
-    run()
+        self.wfile.write(b"OK")
+
+    def _handle_not_found(self):
+        """
+        Handles undefined request endpoints
+        Returns 404 NOT FOUND error
+        """
+        self.send_response(404)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
+
+        self.wfile.write(b"Endpoint not found")
+
+    def log_message(self, format, *args):
+        """
+        Override default logging making it more informative
+        Shows requests are being made
+        """
+        print(f"[{self.address_string()}]{format % args}")
+
+
+def run_server(port=8000):
+    """
+    Create and run the HTTP Server
+    Sets up and begins listening for connections inbound
+
+    Args:
+        port (int): port to run server on (default:8000)
+    """
+    server_address = ('', port)
+
+    httpd = HTTPServer(server_address, SimpleAPIHandler)
+    print(f"Server running on port {port}...")
+
+    httpd.serve_forever()
+
+
+if __name__ == '__main__':
+    run_server()
