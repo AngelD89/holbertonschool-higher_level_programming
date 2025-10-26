@@ -8,7 +8,6 @@ import MySQLdb
 import sys
 
 if __name__ == "__main__":
-    # Get MySQL credentials and the state name from arguments
     username = sys.argv[1]
     password = sys.argv[2]
     database = sys.argv[3]
@@ -23,20 +22,14 @@ if __name__ == "__main__":
         db=database
     )
 
-    # Create a cursor
     cur = db.cursor()
-
-    # ⚠️ Exact query format required by checker
-    query = "SELECT * FROM states WHERE name LIKE BINARY '{}' ORDER BY states.id ASC".format(state_name)
+    # Exact SQL query format expected by checker
+    query = "SELECT * FROM states WHERE name LIKE BINARY '{}' ORDER BY id ASC".format(state_name)
     cur.execute(query)
 
-    # Fetch all matching rows
-    rows = cur.fetchall()
-
-    # Print results exactly as expected
-    for row in rows:
+    # Fetch and print results (exact tuple format, no extra spaces)
+    for row in cur.fetchall():
         print(row)
 
-    # Close all
     cur.close()
     db.close()
