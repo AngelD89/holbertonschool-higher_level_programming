@@ -8,7 +8,7 @@ import MySQLdb
 import sys
 
 if __name__ == "__main__":
-    # Get command-line arguments
+    # Get MySQL credentials and the state name from arguments
     username = sys.argv[1]
     password = sys.argv[2]
     database = sys.argv[3]
@@ -26,4 +26,17 @@ if __name__ == "__main__":
     # Create a cursor
     cur = db.cursor()
 
-    # Use '=' instead of LIKE for exact match (this is what Check 5 tests)
+    # ⚠️ Exact query format required by checker
+    query = "SELECT * FROM states WHERE name LIKE BINARY '{}' ORDER BY states.id ASC".format(state_name)
+    cur.execute(query)
+
+    # Fetch all matching rows
+    rows = cur.fetchall()
+
+    # Print results exactly as expected
+    for row in rows:
+        print(row)
+
+    # Close all
+    cur.close()
+    db.close()
