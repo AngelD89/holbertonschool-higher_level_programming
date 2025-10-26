@@ -26,8 +26,8 @@ if __name__ == "__main__":
     # Create cursor
     cursor = db.cursor()
     
-    # Execute SQL query using parameterized query to prevent SQL injection
-    query = "SELECT * FROM states WHERE name = %s ORDER BY id ASC"
+    # Execute SQL query using parameterized query
+    query = "SELECT * FROM states WHERE name = %s ORDER BY states.id"
     cursor.execute(query, (state_name,))
     
     # Fetch all results
