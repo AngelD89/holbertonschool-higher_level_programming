@@ -1,38 +1,44 @@
 #!/usr/bin/python3
-"""
-Lists all states with a name starting with N (upper N)
-from the database hbtn_0e_0_usa.
-"""
+"""Script that lists all states with names starting with N from the database"""
 
 import MySQLdb
 import sys
 
-if __name__ == "__main__":
-    # Get MySQL credentials and database name from command-line arguments
-    username = sys.argv[1]
-    password = sys.argv[2]
-    database = sys.argv[3]
-
+def list_states_starting_with_N(username, password, db_name):
+    """Connect to MySQL database and list states starting with N"""
+    
     # Connect to MySQL database
     db = MySQLdb.connect(
         host="localhost",
         port=3306,
         user=username,
         passwd=password,
-        db=database
+        db=db_name
     )
-
-    # Create a cursor to execute queries
-    cur = db.cursor()
-
-    # Execute SQL query: names starting with 'N'
-    cur.execute("SELECT * FROM states WHERE name LIKE BINARY 'N%' ORDER BY id ASC")
-
-    # Fetch and print results
-    rows = cur.fetchall()
-    for row in rows:
-        print(row)
-
-    # Close cursor and connection
-    cur.close()
+    
+    # Create cursor
+    cursor = db.cursor()
+    
+    # Execute SQL query to select states starting with N
+    query = "SELECT * FROM states WHERE name LIKE 'N%' ORDER BY id ASC"
+    cursor.execute(query)
+    
+    # Fetch all results
+    states = cursor.fetchall()
+    
+    # Print results
+    for state in states:
+        print(state)
+    
+    # Close cursor and database connection
+    cursor.close()
     db.close()
+
+if __name__ == "__main__":
+    # Get command line arguments
+    if len(sys.argv) == 4:
+        username = sys.argv[1]
+        password = sys.argv[2]
+        db_name = sys.argv[3]
+        
+        list_states_starting_with_N(username, password, db_name)
