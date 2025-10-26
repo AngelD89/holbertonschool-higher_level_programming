@@ -26,9 +26,9 @@ if __name__ == "__main__":
     # Create cursor
     cursor = db.cursor()
     
-    # Execute SQL query with BINARY for exact match
-    query = "SELECT * FROM states WHERE name = BINARY %s ORDER BY id ASC"
-    cursor.execute(query, (state_name,))
+    # Execute SQL query using format to create the query with user input
+    query = "SELECT * FROM states WHERE name = '{}' ORDER BY id".format(state_name)
+    cursor.execute(query)
     
     # Fetch all results
     states = cursor.fetchall()
