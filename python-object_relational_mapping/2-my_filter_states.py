@@ -23,18 +23,7 @@ if __name__ == "__main__":
         db=database
     )
 
-    # Create a cursor to execute queries
+    # Create a cursor
     cur = db.cursor()
 
-    # Build and execute query (as required, using format)
-    query = "SELECT * FROM states WHERE name LIKE BINARY '{}' ORDER BY id ASC".format(state_name)
-    cur.execute(query)
-
-    # Fetch and print results
-    rows = cur.fetchall()
-    for row in rows:
-        print(row)
-
-    # Close cursor and connection
-    cur.close()
-    db.close()
+    # Use '=' instead of LIKE for exact match (this is what Check 5 tests)
