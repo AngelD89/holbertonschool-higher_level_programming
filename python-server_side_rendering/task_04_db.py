@@ -12,6 +12,9 @@ def read_json_file():
     try:
         with open("products.json", "r") as file:
             data = json.load(file)
+            # Ensure same format as other sources
+            if isinstance(data, list):
+                return {"products": data}
             return data
     except Exception:
         return None
